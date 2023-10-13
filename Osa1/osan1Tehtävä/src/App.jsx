@@ -2,9 +2,10 @@ import { useState } from "react"
 
 const StactisticLine = ({ text, value }) => {
     return (
-        <p>
-            {text}: {value}
-        </p>
+        <tr>
+            <td>{text}:</td>
+            <td>{value}</td>
+        </tr>
     )
 }
 
@@ -23,18 +24,22 @@ const Statistics = (props) => {
             {all === 0 ? (
                 <p>No feedback given</p>
             ) : (
-                <div>
-                    <StactisticLine text="Good" value={good} />
-                    <StactisticLine text="Neutral" value={neutral} />
-                    <StactisticLine text="Bad" value={bad} />
-                    <br />
-                    <StactisticLine text="All" value={all} />
-                    <StactisticLine text="Average" value={average.toFixed(2)} />
-                    <StactisticLine
-                        text="Positive"
-                        value={`${positive.toFixed(2)}%`}
-                    />
-                </div>
+                <table>
+                    <tbody>
+                        <StactisticLine text="Good" value={good} />
+                        <StactisticLine text="Neutral" value={neutral} />
+                        <StactisticLine text="Bad" value={bad} />
+                        <StactisticLine text="All" value={all} />
+                        <StactisticLine
+                            text="Average"
+                            value={average.toFixed(2)}
+                        />
+                        <StactisticLine
+                            text="Positive"
+                            value={`${positive.toFixed(2)}%`}
+                        />
+                    </tbody>
+                </table>
             )}
         </div>
     )
