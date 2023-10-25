@@ -13,21 +13,35 @@ const App = () => {
     ]
 
     const [selected, setSelected] = useState(0)
+    const maxValue = anecdotes.length
 
-    // by adding 1 to the lenght, the randomNumber can also be the number of the lenght
-    const maxValue = anecdotes.length + 1
-
-    function handleClick() {
-        let randomNumber = Math.floor(Math.random() * maxValue)
+    function nextAnecodeClick() {
+        // This do-while loop makes sure randomNumber isn't equal to selected
+        // so we always get a new anecdote
+        let randomNumber
+        do {
+            randomNumber = Math.floor(Math.random() * maxValue)
+        } while (randomNumber === selected)
         setSelected(randomNumber)
+    }
+
+    // will make a list with zeros init
+    const [points, setPoints] = useState(Array(maxValue).fill(0))
+
+    function voteClick() {
+        const copy = [...points]
+        copy[selected] += 1
+        setPoints(copy)
     }
 
     return (
         <div>
             {anecdotes[selected]}
             <br />
+            <p>Has {points[selected]} votes.</p>
             <br />
-            <button onClick={handleClick}>Next Anecdote</button>
+            <button onClick={voteClick}>Vote</button>
+            <button onClick={nextAnecodeClick}>Next Anecdote</button>
         </div>
     )
 }
