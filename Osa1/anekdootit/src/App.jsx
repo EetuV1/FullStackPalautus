@@ -34,14 +34,23 @@ const App = () => {
         setPoints(copy)
     }
 
+    // Takes the first one in case of multiple maxPoints
+    const maxPoints = Math.max(...points)
+    const indexOfMaxPoints = points.indexOf(maxPoints)
+
     return (
         <div>
+            <h1>Anecdote of the day</h1>
             {anecdotes[selected]}
             <br />
             <p>Has {points[selected]} votes.</p>
             <br />
             <button onClick={voteClick}>Vote</button>
             <button onClick={nextAnecodeClick}>Next Anecdote</button>
+
+            <h1>Anecdote with most votes</h1>
+            {anecdotes[indexOfMaxPoints]}
+            <p>Number of votes: {maxPoints}</p>
         </div>
     )
 }
