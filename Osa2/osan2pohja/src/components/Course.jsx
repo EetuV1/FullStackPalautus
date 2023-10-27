@@ -23,22 +23,23 @@ const Content = (props) => {
     )
 }
 
-// const Total = (props) => {
-//     // Käy läpi kaikki excercises ja lisää ne arvoon 0 (fiksumpi tapa kuin map)
-//     const numberOfExercises = props.parts.reduce(
-//         (sum, part) => sum + part.exercises,
-//         0
-//     )
-//     return <p>Number of exercises {numberOfExercises}</p>
-// }
+const Total = (props) => {
+    // Makes a list of the exercises | [10, 7, 14]
+    const parts = props.course.parts.map((course) => course.exercises)
+    // Adds each part in the list to the sum | 31
+    const numberOfExercises = parts.reduce((sum, parts) => sum + parts)
+
+    return <p>Number of exercises {numberOfExercises}</p>
+}
+
 const Course = (props) => {
     console.log("Course toimii...")
 
     return (
         <div>
             <Header course={props.course} />
-            {/* <Total course={course.parts} /> */}
             <Content course={props.course} />
+            <Total course={props.course} />
         </div>
     )
 }
