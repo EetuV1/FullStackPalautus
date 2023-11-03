@@ -1,59 +1,39 @@
-import Course from "./components/Course"
+import { useState } from "react"
 
 const App = () => {
-    const courses = [
-        {
-            name: "Half Stack application development",
-            id: 1,
-            parts: [
-                {
-                    name: "Fundamentals of React",
-                    exercises: 10,
-                    id: 1,
-                },
-                {
-                    name: "Using props to pass data",
-                    exercises: 7,
-                    id: 2,
-                },
-                {
-                    name: "State of a component",
-                    exercises: 14,
-                    id: 3,
-                },
-                {
-                    name: "Redux",
-                    exercises: 11,
-                    id: 4,
-                },
-            ],
-        },
-        {
-            name: "Node.js",
-            id: 2,
-            parts: [
-                {
-                    name: "Routing",
-                    exercises: 3,
-                    id: 1,
-                },
-                {
-                    name: "Middlewares",
-                    exercises: 7,
-                    id: 2,
-                },
-            ],
-        },
-    ]
+    const [persons, setPersons] = useState([{ name: "Arto Hellas" }])
+    const [newName, setNewName] = useState("")
 
-    console.log("App toimii...")
+    const formSubmit = (event) => {
+        event.preventDefault()
+        const name = event.target.name.value
+        console.log("Name: ", name)
+        setPersons([...persons, { name }])
+        setNewName("")
+    }
+
+    const personsToShow =
+        persons.length == 0
+            ? "There Are No Contacts"
+            : persons.map((person) => <li key={person.name}>{person.name}</li>)
+
     return (
         <div>
-            <h1>Web Development Curriculumn</h1>
+            <h3>Phonebook</h3>
 
-            {courses.map((course, i) => (
-                <Course key={i} course={course} />
-            ))}
+            <form onSubmit={formSubmit}>
+                Name :
+                <input
+                    id="name"
+                    value={newName}
+                    onChange={(event) => setNewName(event.target.value)}
+                />
+                <br />
+                <button type="submit">Add</button>
+            </form>
+
+            <h3>Numbers</h3>
+            <ul>{personsToShow}</ul>
         </div>
     )
 }
