@@ -4,11 +4,18 @@ const App = () => {
     const [persons, setPersons] = useState([{ name: "Arto Hellas" }])
     const [newName, setNewName] = useState("")
 
+    function checkName(name) {
+        const nameAlreadyExists = persons.some((person) => person.name === name)
+        if (nameAlreadyExists) {
+            alert(`${name} is already added to phonebook.`)
+        } else {
+            setPersons([...persons, { name }])
+        }
+    }
+
     const formSubmit = (event) => {
         event.preventDefault()
-        const name = event.target.name.value
-        console.log("Name: ", name)
-        setPersons([...persons, { name }])
+        checkName(newName)
         setNewName("")
     }
 
