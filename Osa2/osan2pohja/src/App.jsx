@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import Persons from "./components/Persons"
 import PersonForm from "./components/PersonForm"
 import Filter from "./components/Filter"
-
 import axios from "axios"
 
 const App = () => {
@@ -10,16 +9,13 @@ const App = () => {
     // So we can show the searched persons without modifying the original persons array
     const [searchPersons, setSearchPersons] = useState([...persons])
 
-    // Get persons data from JSON server | port: 3001
+    // GET persons data from JSON server | port: 3001
     useEffect(() => {
+        // The browser will clg possible errors automatically
         axios.get("http://localhost:3001/persons").then((response) => {
-            if (response.status == 200) {
-                console.log("Promise fulfilled | Persons: ", response.data)
-                setPersons(response.data)
-                setSearchPersons(response.data)
-            } else {
-                console.error("Response status: ", response.status)
-            }
+            console.log("Promise fulfilled | Persons: ", response.data)
+            setPersons(response.data)
+            setSearchPersons(response.data)
         })
     }, [])
 

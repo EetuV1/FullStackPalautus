@@ -1,5 +1,6 @@
 import React from "react"
 import { useState } from "react"
+import axios from "axios"
 
 const PersonForm = ({
     persons,
@@ -20,16 +21,25 @@ const PersonForm = ({
         if (nameAlreadyExists) {
             alert(`${newName} is already added to phonebook.`)
         } else {
-            setPersons([...persons, { name: newName, number: newNumber }])
-            setSearchPersons([
-                ...searchPersons,
-                { name: newName, number: newNumber },
-            ])
-        }
+            // the DB will assign an id for the new note
+            const personObject = {
+                name: newName,
+                number: newNumber,
+            }
+            // POST the form data to the JSON server
+            axios
+                .post("http://localhost:3001/persons", personObject)
+                .then((response) => {
+                    console.log("formSubmit: response: ", response)
 
-        // Clear inputs
-        setNewName("")
-        setNewNumber("")
+                    setPersons([...persons, personObject])
+                    // So the user will see the new note immediately without having to refresh
+                    setSearchPersons([...searchPersons, personObject])
+                    // Clear inputs
+                    setNewName("")
+                    setNewNumber("")
+                })
+        }
     }
     return (
         <div>
