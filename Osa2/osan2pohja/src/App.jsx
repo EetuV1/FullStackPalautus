@@ -1,17 +1,27 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Persons from "./components/Persons"
 import PersonForm from "./components/PersonForm"
 import Filter from "./components/Filter"
 
+import axios from "axios"
+
 const App = () => {
-    const [persons, setPersons] = useState([
-        { name: "Arto Hellas", number: "045-1234567" },
-        { name: "Ada Lovelace", number: "39-44-5323523" },
-        { name: "Dan Abramov", number: "12-43-234345" },
-        { name: "Mary Poppendieck", number: "39-23-6423122" },
-    ])
+    const [persons, setPersons] = useState([])
     // So we can show the searched persons without modifying the original persons array
     const [searchPersons, setSearchPersons] = useState([...persons])
+
+    // Get persons data from JSON server | port: 3001
+    useEffect(() => {
+        axios.get("http://localhost:3001/persons").then((response) => {
+            if (response.status == 200) {
+                console.log("Promise fulfilled | Persons: ", response.data)
+                setPersons(response.data)
+                setSearchPersons(response.data)
+            } else {
+                console.error("Response status: ", response.status)
+            }
+        })
+    }, [])
 
     return (
         <div>
