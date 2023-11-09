@@ -1,6 +1,7 @@
 import React from "react"
 import { useState } from "react"
-import axios from "axios"
+
+import personsServices from "../services/persons"
 
 const PersonForm = ({
     persons,
@@ -26,19 +27,17 @@ const PersonForm = ({
                 name: newName,
                 number: newNumber,
             }
-            // POST the form data to the JSON server
-            axios
-                .post("http://localhost:3001/persons", personObject)
-                .then((response) => {
-                    console.log("formSubmit: response: ", response)
 
-                    setPersons([...persons, personObject])
-                    // So the user will see the new note immediately without having to refresh
-                    setSearchPersons([...searchPersons, personObject])
-                    // Clear inputs
-                    setNewName("")
-                    setNewNumber("")
-                })
+            // POST the form data to the server
+            personsServices.create(personObject).then((response) => {
+                console.log("Response: ", response)
+                setPersons([...persons, personObject])
+                // So the user will see the new note immediately without having to refresh
+                setSearchPersons([...searchPersons, personObject])
+                // Clear inputs
+                setNewName("")
+                setNewNumber("")
+            })
         }
     }
     return (
