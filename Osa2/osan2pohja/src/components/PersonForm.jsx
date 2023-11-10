@@ -37,6 +37,8 @@ const PersonForm = ({
                 // Clear inputs
                 setNewName("")
                 setNewNumber("")
+                // So the item can be deleted successfully
+                window.location.reload()
             })
         }
     }
