@@ -1,20 +1,25 @@
 import React from "react"
 import personsServices from "../services/persons"
 
-const deletePersonFunction = (person) => {
-    const msg = "Delete " + person.name + "?"
-    const confirm = window.confirm(msg)
+const Persons = ({ persons, setPersons, searchPersons, setSearchPersons }) => {
+    const deletePersonFunction = (person) => {
+        // Ask for confirmation
+        const msg = "Delete " + person.name + "?"
+        const confirm = window.confirm(msg)
 
-    if (confirm) {
-        // Ok clicked
-        personsServices.deletePerson(person.id).then((response) => {
-            window.location.reload()
-            console.log(response)
-        })
+        if (confirm) {
+            // Ok clicked
+            personsServices.deletePerson(person.id).then((response) => {
+                const updatePersons = persons.filter(
+                    (personObject) => personObject.id !== person.id
+                )
+                // Update persons and searchPersons for the new state
+                setPersons(updatePersons)
+                setSearchPersons(updatePersons)
+            })
+        }
     }
-}
 
-const Persons = ({ persons, searchPersons }) => {
     const personsToShow =
         persons.length === 0 ? (
             <tr>

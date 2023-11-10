@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import Persons from "./components/Persons"
 import PersonForm from "./components/PersonForm"
 import Filter from "./components/Filter"
-
 import personsServices from "./services/persons"
 
 const App = () => {
@@ -30,6 +29,7 @@ const App = () => {
             />
             <Persons
                 persons={persons}
+                setPersons={setPersons}
                 searchPersons={searchPersons}
                 setSearchPersons={setSearchPersons}
             />

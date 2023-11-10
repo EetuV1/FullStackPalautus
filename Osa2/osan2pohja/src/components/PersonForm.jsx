@@ -15,30 +15,58 @@ const PersonForm = ({
     const formSubmit = (event) => {
         event.preventDefault()
 
+        // Ensure the name is always in uppercase
+        const uppercaseName = newName.replace(/\b\w/g, (char) =>
+            char.toUpperCase()
+        )
+
         // Check if name already exists
         const nameAlreadyExists = persons.some(
-            (person) => person.name === newName
+            (person) => person.name === uppercaseName
         )
+
         if (nameAlreadyExists) {
-            alert(`${newName} is already added to phonebook.`)
+            // User can replace the old number with a new one
+            const msg =
+                uppercaseName +
+                " is already added to phonebook, replace the old number with a new one?"
+            const confirm = window.confirm(msg)
+
+            if (confirm) {
+                // Ok clicked
+                const id = persons.find(
+                    (person) => person.name === uppercaseName
+                ).id
+                const newPersonObject = {
+                    name: uppercaseName,
+                    number: newNumber,
+                }
+                personsServices.update(id, newPersonObject).then((response) => {
+                    // Goes trough the persons, if the id matches, replace the old person with the response.data
+                    const updatePersons = persons.map((person) =>
+                        person.id !== id ? person : response.data
+                    )
+                    setPersons(updatePersons)
+                    setSearchPersons(updatePersons)
+                    // Clear inputs
+                    setNewName("")
+                    setNewNumber("")
+                })
+            }
         } else {
             // the DB will assign an id for the new note
             const personObject = {
-                name: newName,
+                name: uppercaseName,
                 number: newNumber,
             }
 
             // POST the form data to the server
             personsServices.create(personObject).then((response) => {
-                console.log("Response: ", response)
-                setPersons([...persons, personObject])
-                // So the user will see the new note immediately without having to refresh
-                setSearchPersons([...searchPersons, personObject])
+                setPersons([...persons, response.data])
+                setSearchPersons([...persons, response.data])
                 // Clear inputs
                 setNewName("")
                 setNewNumber("")
-                // So the item can be deleted successfully
-                window.location.reload()
             })
         }
     }
