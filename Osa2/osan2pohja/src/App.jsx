@@ -10,6 +10,8 @@ const App = () => {
     // So we can show the searched persons without modifying the original persons array
     const [searchPersons, setSearchPersons] = useState([...persons])
     const [notificationMessage, setNotificationMessage] = useState(null)
+    const [errorNotificationMessage, setErrorNotificationMessage] =
+        useState(null)
 
     // GET persons data from server
     useEffect(() => {
@@ -27,6 +29,8 @@ const App = () => {
             <Notification
                 notificationMessage={notificationMessage}
                 setNotificationMessage={setNotificationMessage}
+                errorNotificationMessage={errorNotificationMessage}
+                setErrorNotificationMessage={setErrorNotificationMessage}
             />
 
             <PersonForm
@@ -35,6 +39,7 @@ const App = () => {
                 searchPersons={searchPersons}
                 setSearchPersons={setSearchPersons}
                 setNotificationMessage={setNotificationMessage}
+                setErrorNotificationMessage={setErrorNotificationMessage}
             />
             <Persons
                 persons={persons}

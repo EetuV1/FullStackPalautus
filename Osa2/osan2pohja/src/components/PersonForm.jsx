@@ -1,6 +1,5 @@
 import React from "react"
 import { useState } from "react"
-
 import personsServices from "../services/persons"
 
 const PersonForm = ({
@@ -9,6 +8,7 @@ const PersonForm = ({
     searchPersons,
     setSearchPersons,
     setNotificationMessage,
+    setErrorNotificationMessage,
 }) => {
     const [newName, setNewName] = useState("")
     const [newNumber, setNewNumber] = useState("")
@@ -42,21 +42,29 @@ const PersonForm = ({
                     name: uppercaseName,
                     number: newNumber,
                 }
-                personsServices.update(id, newPersonObject).then((response) => {
-                    // Goes trough the persons, if the id matches, replace the old person with the response.data
-                    const updatePersons = persons.map((person) =>
-                        person.id !== id ? person : response.data
-                    )
-                    setPersons(updatePersons)
-                    setSearchPersons(updatePersons)
-                    // Clear inputs
-                    setNewName("")
-                    setNewNumber("")
-                    // Notification
-                    setNotificationMessage(
-                        `${uppercaseName}'s number has been changed`
-                    )
-                })
+                personsServices
+                    .update(id, newPersonObject)
+                    .then((response) => {
+                        // Goes trough the persons, if the id matches, replace the old person with the response.data
+                        const updatePersons = persons.map((person) =>
+                            person.id !== id ? person : response.data
+                        )
+                        setPersons(updatePersons)
+                        setSearchPersons(updatePersons)
+                        // Clear inputs
+                        setNewName("")
+                        setNewNumber("")
+                        // Notification
+                        setNotificationMessage(
+                            `${uppercaseName}'s number has been changed`
+                        )
+                    })
+                    .catch((error) => {
+                        // If someone is trying to modify a person's number but it has already been remoced from the server
+                        setErrorNotificationMessage(
+                            `Information of ${uppercaseName} has already been removed from server.`
+                        )
+                    })
             }
         } else {
             // Add a new person
