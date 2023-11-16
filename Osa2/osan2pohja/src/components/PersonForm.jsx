@@ -8,6 +8,7 @@ const PersonForm = ({
     setPersons,
     searchPersons,
     setSearchPersons,
+    setNotificationMessage,
 }) => {
     const [newName, setNewName] = useState("")
     const [newNumber, setNewNumber] = useState("")
@@ -51,9 +52,15 @@ const PersonForm = ({
                     // Clear inputs
                     setNewName("")
                     setNewNumber("")
+                    // Notification
+                    setNotificationMessage(
+                        `${uppercaseName}'s number has been changed`
+                    )
                 })
             }
         } else {
+            // Add a new person
+
             // the DB will assign an id for the new note
             const personObject = {
                 name: uppercaseName,
@@ -67,6 +74,8 @@ const PersonForm = ({
                 // Clear inputs
                 setNewName("")
                 setNewNumber("")
+                // send a notification
+                setNotificationMessage(`Added ${uppercaseName}`)
             })
         }
     }

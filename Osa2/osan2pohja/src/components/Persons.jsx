@@ -1,7 +1,13 @@
 import React from "react"
 import personsServices from "../services/persons"
 
-const Persons = ({ persons, setPersons, searchPersons, setSearchPersons }) => {
+const Persons = ({
+    persons,
+    setPersons,
+    searchPersons,
+    setSearchPersons,
+    setNotificationMessage,
+}) => {
     const deletePersonFunction = (person) => {
         // Ask for confirmation
         const msg = "Delete " + person.name + "?"
@@ -16,6 +22,8 @@ const Persons = ({ persons, setPersons, searchPersons, setSearchPersons }) => {
                 // Update persons and searchPersons for the new state
                 setPersons(updatePersons)
                 setSearchPersons(updatePersons)
+                // Notification
+                setNotificationMessage(`Deleted ${person.name}`)
             })
         }
     }
