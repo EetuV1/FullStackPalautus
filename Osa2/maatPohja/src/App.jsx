@@ -13,7 +13,6 @@ function App() {
         const baseUrl = "https://studies.cs.helsinki.fi/restcountries/api/all"
         axios.get(baseUrl).then((response) => {
             setCountries(response.data)
-            // console.log("Response: ", response)
         })
     }, [])
 
@@ -35,40 +34,60 @@ function App() {
         else if (countriesLenght > 1) {
             searchResults.innerHTML = ""
 
-            searchCountries.forEach(function (country) {
-                var li = document.createElement("li")
-                li.textContent = country.name.common
-                searchResults.appendChild(li)
-            })
+            const countryList = document.createElement("ul")
+
+            for (const key in searchCountries) {
+                const listItem = document.createElement("div")
+
+                const countryName = document.createTextNode("p")
+                countryName.textContent = searchCountries[key].name.common
+
+                const showCountryButton = document.createElement("button")
+                showCountryButton.textContent = "Show"
+
+                listItem.appendChild(countryName)
+                listItem.appendChild(showCountryButton)
+                countryList.appendChild(listItem)
+                searchResults.appendChild(countryList)
+
+                showCountryButton.onclick = () => {
+                    showCountry(searchCountries[key])
+                }
+            }
         }
+
         // Kun on vain yksi matchi
         // Näytä tiedot maasta
         else if (countriesLenght === 1) {
-            searchResults.innerHTML = ""
+            showCountry(searchCountries[0])
+        }
+    }
 
-            const theCountry = searchCountries[0]
+    allNames()
 
-            searchResults.innerHTML = `
-                <h1>${theCountry.name.common}</h1>
+    function showCountry(country) {
+        searchResults.innerHTML = ""
 
-                <p>Capital: ${theCountry.capital}</p>
-                <p>Area: ${theCountry.area} km²</p>
+        console.log(country.languages)
+
+        searchResults.innerHTML = `
+                <h1>${country.name.common}</h1>
+
+                <p>Capital: ${country.capital}</p>
+                <p>Area: ${country.area} km²</p>
                 
                 <h3>Languages</h3>
                 <ul>
-                    ${Object.values(theCountry.languages).map(
+                    ${Object.values(country.languages).map(
                         (language, index) => {
                             return `<li key=${index}>${language}</li>`
                         }
                     )}
                 </ul>
 
-                <img src="${theCountry.flags.png}" alt="Flag" />
+                <img src="${country.flags.png}" alt="Flag" />
             `
-        }
     }
-
-    allNames()
 
     return (
         <div>
