@@ -3,7 +3,6 @@ import { useState } from "react"
 
 const Filter = ({ countries, setSearchCountries }) => {
     const [searchInput, setSearchInput] = useState("")
-    const [countryNames, setCountryNames] = useState([])
 
     const handleSeachInputChange = (event) => {
         setSearchInput(event.target.value)
