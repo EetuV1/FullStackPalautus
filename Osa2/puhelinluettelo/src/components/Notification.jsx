@@ -17,7 +17,7 @@ const Notification = ({
         // timer will show the message for 3 seconds
         setTimeout(() => {
             setErrorNotificationMessage(null)
-        }, 3000)
+        }, 6000)
         return (
             <div className="errorNotification">{errorNotificationMessage}</div>
         )

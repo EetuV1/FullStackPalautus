@@ -15,9 +15,9 @@ const App = () => {
 
     // GET persons data from server
     useEffect(() => {
-        personsServices.getAll().then((response) => {
-            setPersons(response.data)
-            setSearchPersons(response.data)
+        personsServices.getAll().then((data) => {
+            setPersons(data)
+            setSearchPersons(data)
         })
     }, [])
 

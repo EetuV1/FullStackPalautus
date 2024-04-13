@@ -61,9 +61,7 @@ const PersonForm = ({
                     })
                     .catch((error) => {
                         // If someone is trying to modify a person's number but it has already been remoced from the server
-                        setErrorNotificationMessage(
-                            `Information of ${uppercaseName} has already been removed from server.`
-                        )
+                        setErrorNotificationMessage(`Unknown error`)
                     })
             }
         } else {
@@ -76,17 +74,26 @@ const PersonForm = ({
             }
 
             // POST the form data to the server
-            personsServices.create(personObject).then((response) => {
-                setPersons([...persons, response.data])
-                setSearchPersons([...persons, response.data])
-                // Clear inputs
-                setNewName("")
-                setNewNumber("")
-                // send a notification
-                setNotificationMessage(`Added ${uppercaseName}`)
-            })
+            personsServices
+                .create(personObject)
+                .then((response) => {
+                    setPersons([...persons, response.data])
+                    setSearchPersons([...persons, response.data])
+                    // Clear inputs
+                    setNewName("")
+                    setNewNumber("")
+                    // send a notification
+                    setNotificationMessage(`Added ${uppercaseName}`)
+                })
+                // If the server returns an error
+                // Part 3.19
+                .catch((error) => {
+                    console.log(error.response.data)
+                    setErrorNotificationMessage(error.response.data.error)
+                })
         }
     }
+
     return (
         <div>
             <h3>Add a new</h3>
@@ -97,6 +104,7 @@ const PersonForm = ({
                         id="name"
                         value={newName}
                         onChange={(event) => setNewName(event.target.value)}
+                        required
                     />
                 </div>
                 <div>
@@ -105,6 +113,7 @@ const PersonForm = ({
                         id="number"
                         value={newNumber}
                         onChange={(event) => setNewNumber(event.target.value)}
+                        required
                     />
                 </div>
                 <br />

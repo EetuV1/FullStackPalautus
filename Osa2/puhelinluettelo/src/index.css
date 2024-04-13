@@ -22,3 +22,8 @@
     padding: 10px;
     margin-bottom: 10px;
 }
+
+input {
+    background-color: white;
+    color: black;
+}
