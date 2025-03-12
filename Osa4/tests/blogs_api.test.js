@@ -25,6 +25,14 @@ test("the first blog's title is *this is title*", async () => {
   assert.strictEqual(firstBlogTitle, "this is title")
 })
 
+test("all blogs have an id property", async () => {
+  const response = await api.get("/api/blogs")
+
+  response.body.forEach((blog) => {
+    assert.strictEqual(blog.id !== undefined, true)
+  })
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
