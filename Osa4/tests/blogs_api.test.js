@@ -3,7 +3,6 @@ const mongoose = require("mongoose")
 const supertest = require("supertest")
 const app = require("../app")
 const assert = require("assert")
-
 const api = supertest(app)
 
 test("blogs are returned as json", async () => {
