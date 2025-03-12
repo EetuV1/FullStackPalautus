@@ -37,3 +37,10 @@ describe("favorite blog", () => {
     assert.deepStrictEqual(result, dummyBlogs[2])
   })
 })
+
+describe("most blogs", () => {
+  test("when list has multiple blogs equals the author with most blogs", () => {
+    const result = listHelper.mostBlogs(dummyBlogs)
+    assert.deepStrictEqual(result, ["Robert C. Martin", 3])
+  })
+})
