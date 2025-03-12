@@ -13,6 +13,9 @@ blogSchema.set("toJSON", {
     delete returnedObject._id
     delete returnedObject.__v
 
+    if (document.likes === undefined) {
+      document.likes = 0
+    }
     if (returnedObject.likes === undefined) {
       returnedObject.likes = 0
     }
